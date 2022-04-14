@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsdParser", "PsdParser\PsdParser.csproj", "{37958E7B-9071-4603-9114-F3201D354D19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsdParser.Test", "PsdParser.Test\PsdParser.Test.csproj", "{90E0F208-3717-45F2-8290-CEDA78F0FA68}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37958E7B-9071-4603-9114-F3201D354D19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37958E7B-9071-4603-9114-F3201D354D19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37958E7B-9071-4603-9114-F3201D354D19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37958E7B-9071-4603-9114-F3201D354D19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90E0F208-3717-45F2-8290-CEDA78F0FA68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90E0F208-3717-45F2-8290-CEDA78F0FA68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90E0F208-3717-45F2-8290-CEDA78F0FA68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90E0F208-3717-45F2-8290-CEDA78F0FA68}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1577887C-1AE3-4134-97B4-24E413A30998}
+	EndGlobalSection
+EndGlobal
