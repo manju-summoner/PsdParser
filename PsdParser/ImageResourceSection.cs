@@ -1,11 +1,9 @@
-﻿using System.Collections.Immutable;
-
-namespace PsdParser
+﻿namespace PsdParser
 {
     public class ImageResourceSection
     {
         public uint Length { get; }
-        public ImmutableList<ImageResourceBlock> Blocks { get; }
+        public ImageResourceBlock[] Blocks { get; }
 
         internal ImageResourceSection(PsdBinaryReader reader)
         {
@@ -17,7 +15,7 @@ namespace PsdParser
             {
                 blocks.Add(new ImageResourceBlock(reader));
             }
-            Blocks = blocks.ToImmutableList();
+            Blocks = blocks.ToArray();
 
 
             InvalidStreamPositionException.ThrowIfInvalid(reader, position, Length + 4);

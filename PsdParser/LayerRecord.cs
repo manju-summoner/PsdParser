@@ -1,6 +1,4 @@
-﻿using System.Collections.Immutable;
-
-namespace PsdParser
+﻿namespace PsdParser
 {
     public class LayerRecord
     {
@@ -10,7 +8,7 @@ namespace PsdParser
         public uint Right { get; }
 
         public ushort Channels { get; }
-        public ImmutableList<ChannelInformation> ChannelInfos { get; }
+        public ChannelInformation[] ChannelInfos { get; }
 
         public string BlendMode { get; }
         public byte Opacity { get; }
@@ -21,7 +19,7 @@ namespace PsdParser
         public LayerBlendingRangesData LayerBlendingRangesData { get; }
         public string LayerName { get; }
 
-        public ImmutableList<AdditionalLayerInformation> AdditionalLayerInformations { get; }
+        public AdditionalLayerInformation[] AdditionalLayerInformations { get; }
 
         internal LayerRecord(PsdBinaryReader reader, bool isPSB)
         {
@@ -31,10 +29,9 @@ namespace PsdParser
             Right = reader.ReadUInt32();
 
             Channels = reader.ReadUInt16();
-            var infos = new List<ChannelInformation>();
+            ChannelInfos = new ChannelInformation[Channels];
             for (int i = 0; i < Channels; i++)
-                infos.Add(new ChannelInformation(reader, isPSB));
-            ChannelInfos = infos.ToImmutableList();
+                ChannelInfos[i] = new ChannelInformation(reader, isPSB);
 
             var signature = new string(reader.ReadChars(4));
             if (signature != "8BIM")
@@ -56,7 +53,7 @@ namespace PsdParser
             var additional = new List<AdditionalLayerInformation>();
             while(reader.BaseStream.Position < extraDataPosition + ExtraDataLength)
                 additional.Add(AdditionalLayerInformation.Parse(reader, isPSB));
-            AdditionalLayerInformations = additional.ToImmutableList();
+            AdditionalLayerInformations = additional.ToArray();
 
             InvalidStreamPositionException.ThrowIfInvalid(reader,extraDataPosition,ExtraDataLength);
         }

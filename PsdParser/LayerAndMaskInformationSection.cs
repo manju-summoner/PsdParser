@@ -1,13 +1,11 @@
-﻿using System.Collections.Immutable;
-
-namespace PsdParser
+﻿namespace PsdParser
 {
     public class LayerAndMaskInformationSection
     {
         public long Length { get; }
         public LayerInfo? LayerInfo { get; }
         public GlobalLayerMaskInfo? GlobalLayerMaskInfo { get; }
-        public ImmutableList<AdditionalLayerInformation> AdditionalLayerInformations { get; } = ImmutableList.Create<AdditionalLayerInformation>();
+        public AdditionalLayerInformation[] AdditionalLayerInformations { get; } = Array.Empty<AdditionalLayerInformation>();
 
         internal LayerAndMaskInformationSection(PsdBinaryReader reader,bool isPSB, int depth)
         {
@@ -22,7 +20,7 @@ namespace PsdParser
                 var additionalInfos = new List<AdditionalLayerInformation>();
                 while(position + 4 + Length < reader.BaseStream.Position)
                     additionalInfos.Add(AdditionalLayerInformation.Parse(reader, isPSB));
-                AdditionalLayerInformations = additionalInfos.ToImmutableList();
+                AdditionalLayerInformations = additionalInfos.ToArray();
             }
             InvalidStreamPositionException.ThrowIfInvalid(reader, position, 4 + Length);
         }
