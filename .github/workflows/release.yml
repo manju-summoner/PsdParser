@@ -22,7 +22,7 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore -p:Version=${GITHUB_REF/refs\/tags\/v/}
+      run: dotnet build --configuration Release --no-restore -p:Version=${GITHUB_REF/refs\/tags\/v/};AssemblyVersion=${GITHUB_REF/refs\/tags\/v/}
 
     - name: Packaging
       run: dotnet pack --include-symbols --configuration Release --no-build --output nupkgs -p:PackageVersion=${GITHUB_REF/refs\/tags\/v/}
