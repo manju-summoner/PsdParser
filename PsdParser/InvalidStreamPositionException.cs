@@ -8,7 +8,7 @@ namespace PsdParser
 {
     internal class InvalidStreamPositionException : Exception
     {
-        public InvalidStreamPositionException(long current, long from, long length) : base($"Invalid stream position. current: {current}, from: {from}, length: {length}")
+        public InvalidStreamPositionException(long current, long from, long length) : base($"Invalid stream position. current: {current}, target: {from + length}, from: {from}, length: {length}")
         {
 
         }

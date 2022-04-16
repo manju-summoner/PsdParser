@@ -2,10 +2,10 @@
 {
     public class LayerRecord
     {
-        public uint Top { get; }
-        public uint Left { get; }
-        public uint Bottom { get; }
-        public uint Right { get; }
+        public int Top { get; }
+        public int Left { get; }
+        public int Bottom { get; }
+        public int Right { get; }
 
         public ushort Channels { get; }
         public ChannelInformation[] ChannelInfos { get; }
@@ -23,10 +23,10 @@
 
         internal LayerRecord(PsdBinaryReader reader, bool isPSB)
         {
-            Top = reader.ReadUInt32();
-            Left = reader.ReadUInt32();
-            Bottom = reader.ReadUInt32();
-            Right = reader.ReadUInt32();
+            Top = reader.ReadInt32();
+            Left = reader.ReadInt32();
+            Bottom = reader.ReadInt32();
+            Right = reader.ReadInt32();
 
             Channels = reader.ReadUInt16();
             ChannelInfos = new ChannelInformation[Channels];

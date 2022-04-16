@@ -18,7 +18,7 @@
             Header = new FileHeaderSection(reader);
             ColorModeDataSection = new ColorModeDataSection(reader);
             ImageResourceSection = new ImageResourceSection(reader);
-            LayerAndMaskInformationSection = new LayerAndMaskInformationSection(reader, Header.Version is 2, Header.Depth);
+            LayerAndMaskInformationSection = new LayerAndMaskInformationSection(reader, Header.Version is 2, Header.Depth, Header.ColorMode);
         }
 
         #region IDisposable

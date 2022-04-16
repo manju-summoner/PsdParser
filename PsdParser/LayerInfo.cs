@@ -5,13 +5,13 @@
         public long Length { get; }
         public short LayerCount { get; }
         public LayerRecord[] LayerRecords { get; }
-        public ChannelImageData[] ChannelImageDatas { get; }
+        public LayerImage[] LayerImages { get; }
 
-        internal LayerInfo(PsdBinaryReader reader, bool isPSB, int depth)
+        internal LayerInfo(PsdBinaryReader reader, bool isPSB, int depth, ColorMode colorMode)
         {
             var position = reader.BaseStream.Position;
-
             Length = isPSB ? reader.ReadInt64() : reader.ReadUInt32();
+            var lengthSize = isPSB ? 8 : 4;
             LayerCount = reader.ReadInt16();
 
             
@@ -19,21 +19,14 @@
             for (int i = 0; i < LayerRecords.Length; i++)
                 LayerRecords[i] = new LayerRecord(reader, isPSB);
 
-            var channelImageDatas = new List<ChannelImageData>();
-            for (int i = 0; i < Math.Abs(LayerCount); i++) 
-            {
-                var layer = LayerRecords[i];
-                var width = layer.Right - layer.Left;
-                var height = layer.Bottom - layer.Top;
-                for(int c = 0;c< layer.Channels;c++)
-                    channelImageDatas.Add(new ChannelImageData(reader, isPSB, width, height, depth));
-            }
-            ChannelImageDatas = channelImageDatas.ToArray();
+            LayerImages = new LayerImage[LayerRecords.Length];
+            for (int i = 0; i < Math.Abs(LayerCount); i++)
+                LayerImages[i] = new LayerImage(reader, LayerRecords[i], isPSB, depth, colorMode);
 
-            if (position + 4 + Length - reader.BaseStream.Position < 4)
-                reader.BaseStream.Position = position + 4 + Length;
+            if (position + lengthSize + Length - reader.BaseStream.Position < 4)
+                reader.BaseStream.Position = position + lengthSize + Length;
 
-            InvalidStreamPositionException.ThrowIfInvalid(reader, position, 4 + Length);
+            InvalidStreamPositionException.ThrowIfInvalid(reader, position, lengthSize + Length);
         }
     }
 }
