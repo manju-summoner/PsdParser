@@ -22,8 +22,8 @@
             reader.BaseStream.Position += 6;
 
             Channels = reader.ReadUInt16();
-            Width = reader.ReadInt32();
             Height = reader.ReadInt32();
+            Width = reader.ReadInt32();
             Depth = reader.ReadUInt16();
             ColorMode = (ColorMode)reader.ReadUInt16();
 
