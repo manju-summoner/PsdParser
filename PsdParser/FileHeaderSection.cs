@@ -4,8 +4,8 @@
     {
         public ushort Version { get; }
         public ushort Channels { get; }
-        public uint Width { get; }
-        public uint Height { get; }
+        public int Width { get; }
+        public int Height { get; }
         public ushort Depth { get; }
         public ColorMode ColorMode { get; }
 
@@ -22,8 +22,8 @@
             reader.BaseStream.Position += 6;
 
             Channels = reader.ReadUInt16();
-            Width = reader.ReadUInt32();
-            Height = reader.ReadUInt32();
+            Width = reader.ReadInt32();
+            Height = reader.ReadInt32();
             Depth = reader.ReadUInt16();
             ColorMode = (ColorMode)reader.ReadUInt16();
 
