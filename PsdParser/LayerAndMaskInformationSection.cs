@@ -3,9 +3,9 @@
     public class LayerAndMaskInformationSection
     {
         public long Length { get; }
-        public LayerInfo? LayerInfo { get; }
-        public GlobalLayerMaskInfo? GlobalLayerMaskInfo { get; }
-        public AdditionalLayerInformation[] AdditionalLayerInformations { get; } = Array.Empty<AdditionalLayerInformation>();
+        public LayerInfo LayerInfo { get; }
+        public GlobalLayerMaskInfo GlobalLayerMaskInfo { get; }
+        public AdditionalLayerInformation[] AdditionalLayerInformations { get; }
 
         internal LayerAndMaskInformationSection(PsdBinaryReader reader, bool isPSB, int depth, ColorMode colorMode)
         {
@@ -22,6 +22,12 @@
                 while(reader.BaseStream.Position < position + lengthSize + Length)
                     additionalInfos.Add(AdditionalLayerInformation.Parse(reader, isPSB));
                 AdditionalLayerInformations = additionalInfos.ToArray();
+            }
+            else
+            {
+                LayerInfo = new LayerInfo();
+                GlobalLayerMaskInfo = new GlobalLayerMaskInfo();
+                AdditionalLayerInformations = Array.Empty<AdditionalLayerInformation>();
             }
             InvalidStreamPositionException.ThrowIfInvalid(reader, position, lengthSize + Length);
         }

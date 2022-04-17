@@ -28,5 +28,12 @@
 
             InvalidStreamPositionException.ThrowIfInvalid(reader, position, lengthSize + Length);
         }
+        internal LayerInfo()
+        {
+            Length = 0;
+            LayerCount = 0;
+            LayerRecords = Array.Empty<LayerRecord>();
+            LayerImages = Array.Empty<LayerImage>();
+        }
     }
 }

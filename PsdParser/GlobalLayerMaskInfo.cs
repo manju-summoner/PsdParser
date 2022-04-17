@@ -20,5 +20,9 @@
             reader.BaseStream.Position = position + 4 + Length;
             InvalidStreamPositionException.ThrowIfInvalid(reader, position, 4 + Length);
         }
+        internal GlobalLayerMaskInfo()
+        {
+            Length = 0;
+        }
     }
 }
