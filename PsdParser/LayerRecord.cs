@@ -10,7 +10,7 @@
         public ushort Channels { get; }
         public ChannelInformation[] ChannelInfos { get; }
 
-        public string BlendMode { get; }
+        public BlendMode BlendMode { get; }
         public byte Opacity { get; }
         public bool Clipping { get; }
         public LayerFlags LayerFlags { get; }
@@ -37,7 +37,7 @@
             if (signature != "8BIM")
                 throw new InvalidSignatureException(signature);
 
-            BlendMode = new string(reader.ReadChars(4));
+            BlendMode = (BlendMode)reader.ReadInt32();
             Opacity = reader.ReadByte();
             Clipping = reader.ReadByte() is 1;
             LayerFlags = (LayerFlags)reader.ReadByte();
