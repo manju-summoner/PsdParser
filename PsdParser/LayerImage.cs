@@ -2,7 +2,6 @@
 {
     public class LayerImage
     {
-        public LayerRecord Layer { get; }
         public ChannelImageData[] ChannelImages { get; }
 
         public int Width { get; }
@@ -10,7 +9,6 @@
         readonly ColorMode colorMode;
         internal LayerImage(PsdBinaryReader reader, LayerRecord layer, bool isPSB, int depth, ColorMode colorMode)
         {
-            Layer = layer;
             Width = layer.Right - layer.Left;
             Height = layer.Bottom - layer.Top;
             this.colorMode = colorMode;
@@ -28,7 +26,6 @@
                 return ReadCMYK();
             else
                 throw new NotSupportedException($"Not supported format: {colorMode}");
-
         }
 
         byte[] ReadRGB()
