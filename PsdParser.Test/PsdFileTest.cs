@@ -29,18 +29,16 @@ namespace PsdParser.Test
                 var fileName = Path.GetFileName(file).Replace(".","_");
 
                 using var psd = new PsdFile(file);
-                var images = psd.LayerAndMaskInformationSection?.LayerInfo?.LayerImages;
-                if (images is null)
-                    throw new NullReferenceException("images is null");
-                for (int i = 0; i < images.Length; i++)
+                var layers = psd.LayerAndMaskInformationSection.LayerInfo.Items;
+                for (int i = 0; i < layers.Length; i++)
                 {
-                    var image = images[i];
+                    var (record, image) = layers[i];
                     if (image.Width is 0 || image.Height is 0) continue;
                     var buffer = image.Read();
 
                     if (!Directory.Exists("outout"))
                         Directory.CreateDirectory("output");
-                    var layerName = image.Layer.AdditionalLayerInformations.OfType<AdditionalLayerInformations.UnicodeLayerName>().Select(x=>x.Name).FirstOrDefault() ?? image.Layer.LayerName;
+                    var layerName = record.AdditionalLayerInformations.OfType<AdditionalLayerInformations.UnicodeLayerName>().Select(x=>x.Name).FirstOrDefault() ?? record.LayerName;
                     WriteBitmap($"output\\{fileName}-{layerName}.bmp", buffer, image.Width, image.Height);
                 }
             }
