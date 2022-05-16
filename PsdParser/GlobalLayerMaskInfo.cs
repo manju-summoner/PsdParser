@@ -13,7 +13,7 @@
 
             Length = reader.ReadUInt32();
             OverlayColorSpace = reader.ReadUInt16();
-            ColorComponent = reader.ReadUInt16();
+            ColorComponent = reader.ReadUInt64();
             Opacity = reader.ReadUInt16();
             Kind = (MaskKind)reader.ReadByte();
 
