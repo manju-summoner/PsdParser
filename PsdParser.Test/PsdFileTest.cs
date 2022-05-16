@@ -38,10 +38,19 @@ namespace PsdParser.Test
 
                     if (!Directory.Exists("outout"))
                         Directory.CreateDirectory("output");
+
                     var layerName = record.AdditionalLayerInformations.OfType<AdditionalLayerInformations.UnicodeLayerName>().Select(x=>x.Name).FirstOrDefault() ?? record.LayerName;
-                    WriteBitmap($"output\\{fileName}-{layerName}.bmp", buffer, image.Width, image.Height);
+                    var layerFileName = EscapeFileName($"{fileName}-{layerName}.bmp");
+                    WriteBitmap($"output\\{layerFileName}", buffer, image.Width, image.Height);
                 }
             }
+        }
+
+        static string EscapeFileName(string fileName)
+        {
+            foreach (var c in Path.GetInvalidFileNameChars())
+                fileName = fileName.Replace(c, '_');
+            return fileName;
         }
 
         public static void WriteBitmap(string filePath, byte[] buffer, int width,int height)
