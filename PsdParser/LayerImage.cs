@@ -15,7 +15,20 @@
             
             ChannelImages = new ChannelImageData[layer.Channels];
             for (int c = 0; c < layer.Channels; c++)
-                ChannelImages[c] = new ChannelImageData(reader, layer.ChannelInfos[c].Id, isPSB, Width, Height, depth);
+            {
+                int channelImageWidth, channelImageHeight;
+                if(ChannelId.TransparencyMask <= layer.ChannelInfos[c].Id)
+                {
+                    channelImageWidth = Width;
+                    channelImageHeight = Height;
+                }
+                else
+                {
+                    channelImageWidth = layer.LayerMaskAndAdjustmentLayerData.Right - layer.LayerMaskAndAdjustmentLayerData.Left;
+                    channelImageHeight = layer.LayerMaskAndAdjustmentLayerData.Bottom - layer.LayerMaskAndAdjustmentLayerData.Top;
+                }
+                ChannelImages[c] = new ChannelImageData(reader, layer.ChannelInfos[c].Id, isPSB, channelImageWidth, channelImageHeight, depth);
+            }
         }
 
         public byte[] Read()

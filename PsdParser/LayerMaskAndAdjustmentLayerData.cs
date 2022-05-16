@@ -2,12 +2,12 @@
 {
     public class LayerMaskAndAdjustmentLayerData
     {
-        public uint Size { get; }
+        public int Size { get; }
 
-        public uint Top { get; }
-        public uint Left { get; }
-        public uint Bottom { get; }
-        public uint Right { get; }
+        public int Top { get; }
+        public int Left { get; }
+        public int Bottom { get; }
+        public int Right { get; }
 
         public byte DefaultColor { get; }
         public LayerMaskAndAdjustmentLayerDataFlags Flags { get; }
@@ -16,23 +16,23 @@
         public double MaskFeather { get; }
         public LayerMaskAndAdjustmentLayerDataFlags RealFlags { get; }
         public byte RealUserMaskBackground { get; }
-        public uint MaskTop { get; }
-        public uint MaskLeft { get; }
-        public uint MaskBottom { get; }
-        public uint MaskRight { get; }
+        public int MaskTop { get; }
+        public int MaskLeft { get; }
+        public int MaskBottom { get; }
+        public int MaskRight { get; }
         internal LayerMaskAndAdjustmentLayerData(PsdBinaryReader reader)
         {
             var position = reader.BaseStream.Position;
-            Size = reader.ReadUInt32();
+            Size = reader.ReadInt32();
             try
             {
                 if (Size is 0)
                     return;
                 
-                Top = reader.ReadUInt32();
-                Left = reader.ReadUInt32();
-                Bottom = reader.ReadUInt32();
-                Right = reader.ReadUInt32();
+                Top = reader.ReadInt32();
+                Left = reader.ReadInt32();
+                Bottom = reader.ReadInt32();
+                Right = reader.ReadInt32();
 
                 DefaultColor = reader.ReadByte();
                 Flags = (LayerMaskAndAdjustmentLayerDataFlags)reader.ReadByte();
@@ -49,10 +49,10 @@
                     return;
                 }
                 RealFlags = (LayerMaskAndAdjustmentLayerDataFlags)reader.ReadByte();
-                MaskTop = reader.ReadUInt32();
-                MaskLeft = reader.ReadUInt32();
-                MaskBottom = reader.ReadUInt32();
-                MaskRight = reader.ReadUInt32();
+                MaskTop = reader.ReadInt32();
+                MaskLeft = reader.ReadInt32();
+                MaskBottom = reader.ReadInt32();
+                MaskRight = reader.ReadInt32();
             }
             finally
             {
