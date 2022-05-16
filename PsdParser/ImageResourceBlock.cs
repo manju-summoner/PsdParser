@@ -16,11 +16,14 @@
 
             Id = reader.ReadUInt16();
             Name = reader.ReadPascalString(2);
+            var nameSize = Name.Length + 1;
+            nameSize += nameSize % 2;
 
             DataSize = reader.ReadUInt32();
-            reader.BaseStream.Position += DataSize;
+            var dataPadding = DataSize % 2;
+            reader.BaseStream.Position += DataSize + dataPadding;
 
-            InvalidStreamPositionException.ThrowIfInvalid(reader, position, 4 + 2 + 1 + Math.Max(1, Name.Length) + 4 + DataSize);
+            InvalidStreamPositionException.ThrowIfInvalid(reader, position, 4 + 2 + nameSize + 4 + DataSize + dataPadding);
         }
     }
 }
