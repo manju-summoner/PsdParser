@@ -16,12 +16,21 @@
             if (Length > 0)
             {
                 LayerInfo = new LayerInfo(reader, isPSB, depth, colorMode);
-                GlobalLayerMaskInfo = new GlobalLayerMaskInfo(reader);
 
-                var additionalInfos = new List<AdditionalLayerInformation>();
-                while(reader.BaseStream.Position < position + lengthSize + Length)
-                    additionalInfos.Add(AdditionalLayerInformation.Parse(reader, isPSB));
-                AdditionalLayerInformations = additionalInfos.ToArray();
+                if (reader.BaseStream.Position == position + 4 + Length)
+                {
+                    GlobalLayerMaskInfo = new GlobalLayerMaskInfo();
+                    AdditionalLayerInformations = Array.Empty<AdditionalLayerInformation>();
+                }
+                else
+                {
+                    GlobalLayerMaskInfo = new GlobalLayerMaskInfo(reader);
+
+                    var additionalInfos = new List<AdditionalLayerInformation>();
+                    while (reader.BaseStream.Position < position + lengthSize + Length)
+                        additionalInfos.Add(AdditionalLayerInformation.Parse(reader, isPSB));
+                    AdditionalLayerInformations = additionalInfos.ToArray();
+                }
             }
             else
             {
