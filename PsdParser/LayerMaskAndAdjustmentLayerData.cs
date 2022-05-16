@@ -40,7 +40,7 @@
                     MaskParameters = reader.ReadByte();
                 if (MaskParameters is 1 or 4)
                     MaskDensity = reader.ReadByte();
-                else
+                else if(MaskParameters is 2 or 8)
                     MaskFeather = reader.ReadDouble();
 
                 if (Size is 20)
