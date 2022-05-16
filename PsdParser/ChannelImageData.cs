@@ -43,8 +43,8 @@
         {
             if(Compression is ChannelImageDataCompression.RawData)
             {
-                reader.BaseStream.Position = position + width * depth * y;
-                reader.Read(buffer, 0, width * depth);
+                reader.BaseStream.Position = position + width * depth / 8 * y;
+                reader.Read(buffer, 0, width * depth / 8);
             }
             else if(Compression is ChannelImageDataCompression.RLE)
             {
