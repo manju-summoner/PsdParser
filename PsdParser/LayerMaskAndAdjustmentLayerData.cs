@@ -49,10 +49,14 @@
                     return;
                 }
                 RealFlags = (LayerMaskAndAdjustmentLayerDataFlags)reader.ReadByte();
+                RealUserMaskBackground = reader.ReadByte();
                 MaskTop = reader.ReadInt32();
                 MaskLeft = reader.ReadInt32();
                 MaskBottom = reader.ReadInt32();
                 MaskRight = reader.ReadInt32();
+
+                if (position + Size + 4 - reader.BaseStream.Position is 1)
+                    reader.BaseStream.Position += 1;
             }
             finally
             {
