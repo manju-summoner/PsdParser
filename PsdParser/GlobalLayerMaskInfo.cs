@@ -12,13 +12,21 @@
             var position = reader.BaseStream.Position;
 
             Length = reader.ReadUInt32();
-            OverlayColorSpace = reader.ReadUInt16();
-            ColorComponent = reader.ReadUInt64();
-            Opacity = reader.ReadUInt16();
-            Kind = (MaskKind)reader.ReadByte();
+            try
+            {
+                if (Length is 0)
+                    return;
+                OverlayColorSpace = reader.ReadUInt16();
+                ColorComponent = reader.ReadUInt64();
+                Opacity = reader.ReadUInt16();
+                Kind = (MaskKind)reader.ReadByte();
 
-            reader.BaseStream.Position = position + 4 + Length;
-            InvalidStreamPositionException.ThrowIfInvalid(reader, position, 4 + Length);
+                reader.BaseStream.Position = position + 4 + Length;
+            }
+            finally
+            {
+                InvalidStreamPositionException.ThrowIfInvalid(reader, position, 4 + Length);
+            }
         }
         internal GlobalLayerMaskInfo()
         {
