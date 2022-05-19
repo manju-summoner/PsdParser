@@ -52,5 +52,6 @@ namespace PsdParser
             InvalidStreamPositionException.ThrowIfInvalid(reader, position, offset + length);
             return info;
         }
+        public static int MinSize(bool isPSB) => 4 + 4 + (isPSB ? 8 : 4);
     }
 }

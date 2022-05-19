@@ -26,10 +26,13 @@
                 {
                     GlobalLayerMaskInfo = new GlobalLayerMaskInfo(reader);
 
+                    var maxPadding = AdditionalLayerInformation.MinSize(isPSB);
                     var additionalInfos = new List<AdditionalLayerInformation>();
-                    while (reader.BaseStream.Position < position + lengthSize + Length)
+                    while (maxPadding <= position + lengthSize + Length - reader.BaseStream.Position)
                         additionalInfos.Add(AdditionalLayerInformation.Parse(reader, isPSB));
                     AdditionalLayerInformations = additionalInfos.ToArray();
+                    if (position + lengthSize + Length - reader.BaseStream.Position < maxPadding)
+                        reader.BaseStream.Position = position + lengthSize + Length;
                 }
             }
             else

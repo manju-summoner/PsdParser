@@ -50,10 +50,13 @@
             LayerBlendingRangesData = new LayerBlendingRangesData(reader);
             LayerName = reader.ReadPascalString(4);
 
+            var maxPadding = AdditionalLayerInformation.MinSize(isPSB);
             var additional = new List<AdditionalLayerInformation>();
-            while(reader.BaseStream.Position < extraDataPosition + ExtraDataLength)
+            while (maxPadding <= extraDataPosition + ExtraDataLength - reader.BaseStream.Position)
                 additional.Add(AdditionalLayerInformation.Parse(reader, isPSB));
             AdditionalLayerInformations = additional.ToArray();
+            if (extraDataPosition + ExtraDataLength - reader.BaseStream.Position < maxPadding)
+                reader.BaseStream.Position = extraDataPosition + ExtraDataLength;
 
             InvalidStreamPositionException.ThrowIfInvalid(reader,extraDataPosition,ExtraDataLength);
         }
