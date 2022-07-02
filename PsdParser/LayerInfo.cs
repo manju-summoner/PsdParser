@@ -24,7 +24,7 @@
             for(int i = 0; i < records.Length; i++)
                 Items[i] = new LayerRecordAndImage(records[i], images[i]);
 
-            if (position + lengthSize + length - reader.BaseStream.Position < 4)
+            if (position + lengthSize + length - reader.BaseStream.Position <= 4)
                 reader.BaseStream.Position = position + lengthSize + length;
 
             InvalidStreamPositionException.ThrowIfInvalid(reader, position, lengthSize + length);
