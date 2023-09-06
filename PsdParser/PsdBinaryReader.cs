@@ -25,17 +25,22 @@ namespace PsdParser
         public override double ReadDouble() => BitConverter.ToDouble(ReadBigEndian(sizeof(double)));
         public override decimal ReadDecimal() => BitConverter.ToInt32(ReadBigEndian(sizeof(decimal)));
 
-        public string ReadPascalString(int padding)
+        public string ReadPascalString(int align) => ReadPascalString(align, out _);
+        public string ReadPascalString(int align, out int readCount)
         {
-            var length = ReadByte();
-            var bytes = ReadBytes(length);
+            readCount = ReadByte();
+            var bytes = ReadBytes(readCount);
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            var result = Encoding.GetEncoding("shift-jis").GetString(bytes, 0, length).TrimEnd('\0');
+            var result = Encoding.GetEncoding("shift-jis").GetString(bytes, 0, readCount).TrimEnd('\0');
 
-            var amari = (length + 1) % padding;
-            if(amari != 0)
-                BaseStream.Position += padding - amari;
+            readCount++;
+            var padding = align - readCount % align;
+            if (padding != align)
+            {
+                readCount += padding;
+                BaseStream.Position += padding;
+            }
             return result;
         }
 

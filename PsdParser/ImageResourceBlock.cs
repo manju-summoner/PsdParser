@@ -15,9 +15,7 @@
                 throw new InvalidSignatureException(signature);
 
             Id = reader.ReadUInt16();
-            Name = reader.ReadPascalString(2);
-            var nameSize = Name.Length + 1;
-            nameSize += nameSize % 2;
+            Name = reader.ReadPascalString(2, out var nameSize);
 
             DataSize = reader.ReadUInt32();
             var dataPadding = DataSize % 2;
