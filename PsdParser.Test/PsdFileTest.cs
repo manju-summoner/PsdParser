@@ -1,9 +1,12 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace PsdParser.Test
 {
@@ -40,8 +43,8 @@ namespace PsdParser.Test
                         Directory.CreateDirectory("output");
 
                     var layerName = record.AdditionalLayerInformations.OfType<AdditionalLayerInformations.UnicodeLayerName>().Select(x=>x.Name).FirstOrDefault() ?? record.LayerName;
-                    var layerFileName = EscapeFileName($"{fileName}-{layerName}.bmp");
-                    WriteBitmap($"output\\{layerFileName}", buffer, image.Width, image.Height);
+                    var layerFileName = EscapeFileName($"{fileName}-{layerName}.png");
+                    SavePng($"output\\{layerFileName}", buffer, image.Width, image.Height);
                 }
             }
         }
@@ -53,27 +56,13 @@ namespace PsdParser.Test
             return fileName;
         }
 
-        public static void WriteBitmap(string filePath, byte[] buffer, int width,int height)
+        public static void SavePng(string filePath, byte[] buffer, int width, int height)
         {
-            using var stream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite);
-            using var writer = new BinaryWriter(stream);
-            writer.Write((byte)'B');
-            writer.Write((byte)'M');
-            writer.Write(buffer.Length + 54);
-            writer.Write(0);
-            writer.Write(54);
-            writer.Write(40);
-            writer.Write(width);
-            writer.Write(-height);
-            writer.Write((short)1);
-            writer.Write((short)32);
-            writer.Write(0);
-            writer.Write(buffer.Length);
-            writer.Write(0);
-            writer.Write(0);
-            writer.Write(0);
-            writer.Write(0);
-            writer.Write(buffer);
+            using var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            var data = bitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+            Marshal.Copy(buffer, 0, data.Scan0, buffer.Length);
+            bitmap.UnlockBits(data);
+            bitmap.Save(filePath, ImageFormat.Png);
         }
 
         public static IEnumerable<string> GetPsdFiles()
