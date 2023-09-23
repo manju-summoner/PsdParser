@@ -47,7 +47,13 @@ namespace PsdParser
                 "lsct" => new SectionDividerSetting(reader, length),
                 _ => new AdditionalLayerInformation(reader, key, length),
             };
-
+            
+            if (length % 2 is not 0)
+            {
+                length++;
+                reader.BaseStream.Position++;
+            }
+            
             var offset = 4 + 4 + (isLongLength ? 8 : 4);
             InvalidStreamPositionException.ThrowIfInvalid(reader, position, offset + length);
             return info;
