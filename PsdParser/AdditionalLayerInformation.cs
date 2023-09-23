@@ -42,9 +42,9 @@ namespace PsdParser
 
             var info = key switch
             {
-                "lyid" => new LayerID(reader, length),
-                "luni" => new UnicodeLayerName(reader, length),
-                "lsct" => new SectionDividerSetting(reader, length),
+                AdditionalLayerInformationKeys.LayerID => new LayerID(reader, length),
+                AdditionalLayerInformationKeys.UnicodeLayerName => new UnicodeLayerName(reader, length),
+                AdditionalLayerInformationKeys.SectionDividerSetting => new SectionDividerSetting(reader, length),
                 _ => new AdditionalLayerInformation(reader, key, length),
             };
             

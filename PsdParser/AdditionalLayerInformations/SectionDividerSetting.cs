@@ -12,7 +12,7 @@ namespace PsdParser.AdditionalLayerInformations
         public BlendMode BlendMode { get; private set; } = BlendMode.Normal;
         public LsctSubType SubType { get; private set; }
 
-        internal SectionDividerSetting(PsdBinaryReader reader, long length) : base(reader, "lsct", length)
+        internal SectionDividerSetting(PsdBinaryReader reader, long length) : base(reader, AdditionalLayerInformationKeys.SectionDividerSetting, length)
         {
 
         }

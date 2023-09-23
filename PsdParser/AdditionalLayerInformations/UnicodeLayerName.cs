@@ -9,7 +9,7 @@ namespace PsdParser.AdditionalLayerInformations
     public class UnicodeLayerName : AdditionalLayerInformation
     {
         public string Name { get; private set; } = string.Empty;
-        internal UnicodeLayerName(PsdBinaryReader reader,long length):base(reader, "luni", length)
+        internal UnicodeLayerName(PsdBinaryReader reader,long length):base(reader, AdditionalLayerInformationKeys.UnicodeLayerName, length)
         {
 
         }
