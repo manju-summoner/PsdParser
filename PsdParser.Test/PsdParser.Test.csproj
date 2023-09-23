@@ -10,7 +10,6 @@
   <ItemGroup>
     <None Remove="TestData\cmyk.psb" />
     <None Remove="TestData\cmyk.psd" />
-    <None Remove="TestData\im11227534.psd" />
     <None Remove="TestData\rgb.psb" />
     <None Remove="TestData\rgb.psd" />
   </ItemGroup>
@@ -26,9 +25,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\rgb.psd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestData\im11227534.psd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
