@@ -47,16 +47,25 @@ namespace PsdParser
                 AdditionalLayerInformationKeys.SectionDividerSetting => new SectionDividerSetting(reader, length),
                 _ => new AdditionalLayerInformation(reader, key, length),
             };
-            
-            if (length % 2 is not 0)
-            {
-                length++;
-                reader.BaseStream.Position++;
-            }
-            
+
+            //2バイトアライメントと4バイトアライメントが混在している？
+            //CAIは4バイトアライメントされている必要がある？CAIに関する記述がドキュメント（https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/）に存在しないため詳細は不明
+            //Photoshop 2024以降で保存したファイルにCAIが含まれる可能性がある
+            //https://helpx.adobe.com/jp/photoshop/using/content-credentials.html
+            length += SkipZeroPadding(reader);
+
             var offset = 4 + 4 + (isLongLength ? 8 : 4);
             InvalidStreamPositionException.ThrowIfInvalid(reader, position, offset + length);
             return info;
+        }
+        static int SkipZeroPadding(BinaryReader reader)
+        {
+            var current = reader.BaseStream.Position;
+            while(reader.ReadByte() is 0)
+            {
+            }
+            reader.BaseStream.Position--;
+            return (int)(reader.BaseStream.Position - current);
         }
         public static int MinSize(bool isPSB) => 4 + 4 + (isPSB ? 8 : 4);
     }
