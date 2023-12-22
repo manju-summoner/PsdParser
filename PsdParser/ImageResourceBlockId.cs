@@ -35,16 +35,16 @@
         ///</summary>
         Caption = 0x03F0,
         ///<summary>
-        ///0x03F1 1009 Border information. Contains a fixed number (2 bytes real, 2 bytes fraction) for the border width, and 2 bytes for border units (1 
-        ///</summary>= inches, 2 = cm, 3 = points, 4 = picas, 5 = columns).
+        ///0x03F1 1009 Border information. Contains a fixed number (2 bytes real, 2 bytes fraction) for the border width, and 2 bytes for border units (1 = inches, 2 = cm, 3 = points, 4 = picas, 5 = columns).
+        ///</summary>
         BorderInformation = 0x03F1,
         ///<summary>
         ///0x03F2 1010 Background color. See See Color structure.
         ///</summary>
         BackgroundColor = 0x03F2,
         ///<summary>
-        ///0x03F3 1011 Print flags. A series of one-byte boolean values (see Page Setup dialog)
-        ///</summary>: labels, crop marks, color bars, registration marks, negative, flip, interpolate, caption, print flags.
+        ///0x03F3 1011 Print flags. A series of one-byte boolean values (see Page Setup dialog): labels, crop marks, color bars, registration marks, negative, flip, interpolate, caption, print flags.
+        ///</summary>
         PrintFlags = 0x03F3,
         ///<summary>
         ///0x03F4 1012 Grayscale and multichannel halftoning information
@@ -87,16 +87,16 @@
         ///</summary>
         EpsOptions = 0x03FD,
         ///<summary>
-        ///0x03FE 1022 Quick Mask information. 2 bytes containing Quick Mask channel ID
-        ///</summary>; 1- byte boolean indicating whether the mask was initially empty.
+        ///0x03FE 1022 Quick Mask information. 2 bytes containing Quick Mask channel ID; 1- byte boolean indicating whether the mask was initially empty.
+        ///</summary>
         QuickMaskInformation = 0x03FE,
         ///<summary>
         ///0x03FF 1023 (Obsolete)
         ///</summary>
         Obsolete2 = 0x03FF,
         ///<summary>
-        ///0x0400 1024 Layer state information. 2 bytes containing the index of target layer (0 
-        ///</summary>= bottom layer).
+        ///0x0400 1024 Layer state information. 2 bytes containing the index of target layer (0 = bottom layer).
+        ///</summary>
         LayerStateInformation = 0x0400,
         ///<summary>
         ///0x0401 1025 Working path (not saved). See See Path resource format.
@@ -151,28 +151,28 @@
         ///</summary>
         ColorSamplersResource = 0x040E,
         ///<summary>
-        ///0x040F 1039 (Photoshop 5.0) ICC Profile. The raw bytes of an ICC (International Color Consortium) format profile. See ICC1v42
-        ///</summary>_2006-05.pdf in the Documentation folder and icProfileHeader.h in Sample Code\Common\Includes .
+        ///0x040F 1039 (Photoshop 5.0) ICC Profile. The raw bytes of an ICC (International Color Consortium) format profile. See ICC1v42_2006-05.pdf in the Documentation folder and icProfileHeader.h in Sample Code\Common\Includes .
+        ///</summary>
         IccProfile = 0x040F,
         ///<summary>
         ///0x0410 1040 (Photoshop 5.0) Watermark. One byte.
         ///</summary>
         Watermark = 0x0410,
         ///<summary>
-        ///0x0411 1041 (Photoshop 5.0) ICC Untagged Profile. 1 byte that disables any assumed profile handling when opening the file. 1 
-        ///</summary>= intentionally untagged.
+        ///0x0411 1041 (Photoshop 5.0) ICC Untagged Profile. 1 byte that disables any assumed profile handling when opening the file. 1 = intentionally untagged.
+        ///</summary>
         IccUntaggedProfile = 0x0411,
         ///<summary>
-        ///0x0412 1042 (Photoshop 5.0) Effects visible. 1-byte global flag to show
-        ///</summary>/hide all the effects layer. Only present when they are hidden.
+        ///0x0412 1042 (Photoshop 5.0) Effects visible. 1-byte global flag to show/hide all the effects layer. Only present when they are hidden.
+        ///</summary>
         EffectsVisible = 0x0412,
         ///<summary>
         ///0x0413 1043 (Photoshop 5.0) Spot Halftone. 4 bytes for version, 4 bytes for length, and the variable length data.
         ///</summary>
         SpotHalftone = 0x0413,
         ///<summary>
-        ///0x0414 1044 (Photoshop 5.0) Document-specific IDs seed number. 4 bytes
-        ///</summary>: Base value, starting at which layer IDs will be generated (or a greater value if existing IDs already exceed it). Its purpose is to avoid the case where we add layers, flatten, save, open, and then add more layers that end up with the same IDs as the first set.
+        ///0x0414 1044 (Photoshop 5.0) Document-specific IDs seed number. 4 bytes: Base value, starting at which layer IDs will be generated (or a greater value if existing IDs already exceed it). Its purpose is to avoid the case where we add layers, flatten, save, open, and then add more layers that end up with the same IDs as the first set.
+        ///</summary>
         DocumentSpecificIdsSeedNumber = 0x0414,
         ///<summary>
         ///0x0415 1045 (Photoshop 5.0) Unicode Alpha Names. Unicode string
@@ -199,8 +199,8 @@
         ///</summary>
         WorkflowUrl = 0x041B,
         ///<summary>
-        ///0x041C 1052 (Photoshop 6.0) Jump To XPEP. 2 bytes major version, 2 bytes minor version, 4 bytes count. Following is repeated for count
-        ///</summary>: 4 bytes block size, 4 bytes key, if key = 'jtDd' , then next is a Boolean for the dirty flag; otherwise it's a 4 byte entry for the mod date.
+        ///0x041C 1052 (Photoshop 6.0) Jump To XPEP. 2 bytes major version, 2 bytes minor version, 4 bytes count. Following is repeated for count: 4 bytes block size, 4 bytes key, if key = 'jtDd' , then next is a Boolean for the dirty flag; otherwise it's a 4 byte entry for the mod date.
+        ///</summary>
         JumpToXpep = 0x041C,
         ///<summary>
         ///0x041D 1053 (Photoshop 6.0) Alpha Identifiers. 4 bytes of length, followed by 4 bytes each for every alpha identifier.
@@ -211,8 +211,8 @@
         ///</summary>
         UrlList = 0x041E,
         ///<summary>
-        ///0x0421 1057 (Photoshop 6.0) Version Info. 4 bytes version, 1 byte hasRealMergedData , Unicode string
-        ///</summary>: writer name, Unicode string: reader name, 4 bytes file version.
+        ///0x0421 1057 (Photoshop 6.0) Version Info. 4 bytes version, 1 byte hasRealMergedData , Unicode string: writer name, Unicode string: reader name, 4 bytes file version.
+        ///</summary>
         VersionInfo = 0x0421,
         ///<summary>
         ///0x0422 1058 (Photoshop 7.0) EXIF data 1. See http://www.kodak.com/global/plugins/acrobat/en/service/digCam/exifStandard2.pdf
@@ -227,32 +227,32 @@
         ///</summary>
         XmpMetadata = 0x0424,
         ///<summary>
-        ///0x0425 1061 (Photoshop 7.0) Caption digest. 16 bytes
-        ///</summary>: RSA Data Security, MD5 message-digest algorithm
+        ///0x0425 1061 (Photoshop 7.0) Caption digest. 16 bytes: RSA Data Security, MD5 message-digest algorithm
+        ///</summary>
         CaptionDigest = 0x0425,
         ///<summary>
-        ///0x0426 1062 (Photoshop 7.0) Print scale. 2 bytes style (0 
-        ///</summary>= centered, 1 = size to fit, 2 = user defined). 4 bytes x location (floating point). 4 bytes y location (floating point). 4 bytes scale (floating point)
+        ///0x0426 1062 (Photoshop 7.0) Print scale. 2 bytes style (0 = centered, 1 = size to fit, 2 = user defined). 4 bytes x location (floating point). 4 bytes y location (floating point). 4 bytes scale (floating point)
+        ///</summary>
         PrintScale = 0x0426,
         ///<summary>
-        ///0x0428 1064 (Photoshop CS) Pixel Aspect Ratio. 4 bytes (version 
-        ///</summary>= 1 or 2), 8 bytes double, x / y of a pixel. Version 2, attempting to correct values for NTSC and PAL, previously off by a factor of approx. 5%.
+        ///0x0428 1064 (Photoshop CS) Pixel Aspect Ratio. 4 bytes (version = 1 or 2), 8 bytes double, x / y of a pixel. Version 2, attempting to correct values for NTSC and PAL, previously off by a factor of approx. 5%.
+        ///</summary>
         PixelAspectRatio = 0x0428,
         ///<summary>
-        ///0x0429 1065 (Photoshop CS) Layer Comps. 4 bytes (descriptor version 
-        ///</summary>= 16), Descriptor (see See Descriptor structure)
+        ///0x0429 1065 (Photoshop CS) Layer Comps. 4 bytes (descriptor version = 16), Descriptor (see See Descriptor structure)
+        ///</summary>
         LayerComps = 0x0429,
         ///<summary>
-        ///0x042A 1066 (Photoshop CS) Alternate Duotone Colors. 2 bytes (version 
-        ///</summary>= 1), 2 bytes count, following is repeated for each count: [ Color: 2 bytes for space followed by 4 * 2 byte color component ], following this is another 2 byte count, usually 256, followed by Lab colors one byte each for L, a, b. This resource is not read or used by Photoshop.
+        ///0x042A 1066 (Photoshop CS) Alternate Duotone Colors. 2 bytes (version = 1), 2 bytes count, following is repeated for each count: [ Color: 2 bytes for space followed by 4 * 2 byte color component ], following this is another 2 byte count, usually 256, followed by Lab colors one byte each for L, a, b. This resource is not read or used by Photoshop.
+        ///</summary>
         AlternateDuotoneColors = 0x042A,
         ///<summary>
-        ///0x042B 1067 (Photoshop CS)Alternate Spot Colors. 2 bytes (version 
-        ///</summary>= 1), 2 bytes channel count, following is repeated for each count: 4 bytes channel ID, Color: 2 bytes for space followed by 4 * 2 byte color component. This resource is not read or used by Photoshop.
+        ///0x042B 1067 (Photoshop CS)Alternate Spot Colors. 2 bytes (version = 1), 2 bytes channel count, following is repeated for each count: 4 bytes channel ID, Color: 2 bytes for space followed by 4 * 2 byte color component. This resource is not read or used by Photoshop.
+        ///</summary>
         AlternateSpotColors = 0x042B,
         ///<summary>
-        ///0x042D 1069 (Photoshop CS2) Layer Selection ID(s). 2 bytes count, following is repeated for each count
-        ///</summary>: 4 bytes layer ID
+        ///0x042D 1069 (Photoshop CS2) Layer Selection ID(s). 2 bytes count, following is repeated for each count: 4 bytes layer ID
+        ///</summary>
         LayerSelectionIds = 0x042D,
         ///<summary>
         ///0x042E 1070 (Photoshop CS2) HDR Toning information
@@ -263,44 +263,44 @@
         ///</summary>
         PrintInfo = 0x042F,
         ///<summary>
-        ///0x0430 1072 (Photoshop CS2) Layer Group(s) Enabled ID. 1 byte for each layer in the document, repeated by length of the resource. NOTE
-        ///</summary>: Layer groups have start and end markers
+        ///0x0430 1072 (Photoshop CS2) Layer Group(s) Enabled ID. 1 byte for each layer in the document, repeated by length of the resource. NOTE: Layer groups have start and end markers
+        ///</summary>
         LayerGroupsEnabledId = 0x0430,
         ///<summary>
         ///0x0431 1073 (Photoshop CS3) Color samplers resource. Also see ID 1038 for old format. See See Color samplers resource format.
         ///</summary>
         ColorSamplersResource2 = 0x0431,
         ///<summary>
-        ///0x0432 1074 (Photoshop CS3) Measurement Scale. 4 bytes (descriptor version 
-        ///</summary>= 16), Descriptor (see See Descriptor structure)
+        ///0x0432 1074 (Photoshop CS3) Measurement Scale. 4 bytes (descriptor version = 16), Descriptor (see See Descriptor structure)
+        ///</summary>
         MeasurementScale = 0x0432,
         ///<summary>
-        ///0x0433 1075 (Photoshop CS3) Timeline Information. 4 bytes (descriptor version 
-        ///</summary>= 16), Descriptor (see See Descriptor structure)
+        ///0x0433 1075 (Photoshop CS3) Timeline Information. 4 bytes (descriptor version = 16), Descriptor (see See Descriptor structure)
+        ///</summary>
         TimelineInformation = 0x0433,
         ///<summary>
-        ///0x0434 1076 (Photoshop CS3) Sheet Disclosure. 4 bytes (descriptor version 
-        ///</summary>= 16), Descriptor (see See Descriptor structure)
+        ///0x0434 1076 (Photoshop CS3) Sheet Disclosure. 4 bytes (descriptor version = 16), Descriptor (see See Descriptor structure)
+        ///</summary>
         SheetDisclosure = 0x0434,
         ///<summary>
         ///0x0435 1077 (Photoshop CS3) DisplayInfo structure to support floating point clors. Also see ID 1007. See Appendix A in Photoshop API Guide.pdf .
         ///</summary>
         DisplayInfo2 = 0x0435,
         ///<summary>
-        ///0x0436 1078 (Photoshop CS3) Onion Skins. 4 bytes (descriptor version 
-        ///</summary>= 16), Descriptor (see See Descriptor structure)
+        ///0x0436 1078 (Photoshop CS3) Onion Skins. 4 bytes (descriptor version = 16), Descriptor (see See Descriptor structure)
+        ///</summary>
         OnionSkins = 0x0436,
         ///<summary>
-        ///0x0438 1080 (Photoshop CS4) Count Information. 4 bytes (descriptor version 
-        ///</summary>= 16), Descriptor (see See Descriptor structure) Information about the count in the document. See the Count Tool.
+        ///0x0438 1080 (Photoshop CS4) Count Information. 4 bytes (descriptor version = 16), Descriptor (see See Descriptor structure) Information about the count in the document. See the Count Tool.
+        ///</summary>
         CountInformation = 0x0438,
         ///<summary>
-        ///0x043A 1082 (Photoshop CS5) Print Information. 4 bytes (descriptor version 
-        ///</summary>= 16), Descriptor (see See Descriptor structure) Information about the current print settings in the document. The color management options.
+        ///0x043A 1082 (Photoshop CS5) Print Information. 4 bytes (descriptor version = 16), Descriptor (see See Descriptor structure) Information about the current print settings in the document. The color management options.
+        ///</summary>
         PrintInformation = 0x043A,
         ///<summary>
-        ///0x043B 1083 (Photoshop CS5) Print Style. 4 bytes (descriptor version 
-        ///</summary>= 16), Descriptor (see See Descriptor structure) Information about the current print style in the document. The printing marks, labels, ornaments, etc.
+        ///0x043B 1083 (Photoshop CS5) Print Style. 4 bytes (descriptor version = 16), Descriptor (see See Descriptor structure) Information about the current print style in the document. The printing marks, labels, ornaments, etc.
+        ///</summary>
         PrintStyle = 0x043B,
         ///<summary>
         ///0x043C 1084 (Photoshop CS5) Macintosh NSPrintInfo. Variable OS specific info for Macintosh. NSPrintInfo. It is recommened that you do not interpret or use this data.
@@ -319,8 +319,8 @@
         ///</summary>
         AutoSaveFormat = 0x043F,
         ///<summary>
-        ///0x0440 1088 (Photoshop CC) Path Selection State. 4 bytes (descriptor version 
-        ///</summary>= 16), Descriptor (see See Descriptor structure) Information about the current path selection state.
+        ///0x0440 1088 (Photoshop CC) Path Selection State. 4 bytes (descriptor version = 16), Descriptor (see See Descriptor structure) Information about the current path selection state.
+        ///</summary>
         PathSelectionState = 0x0440,
         ///<summary>
         ///0x07D0-0x0BB6 2000-2997 Path Information (saved paths). See See Path resource format.
@@ -331,8 +331,8 @@
         ///</summary>
         NameOfClippingPath = 0x0BB7,
         ///<summary>
-        ///0x0BB8 3000 (Photoshop CC) Origin Path Info. 4 bytes (descriptor version 
-        ///</summary>= 16), Descriptor (see See Descriptor structure) Information about the origin path data.
+        ///0x0BB8 3000 (Photoshop CC) Origin Path Info. 4 bytes (descriptor version = 16), Descriptor (see See Descriptor structure) Information about the origin path data.
+        ///</summary>
         OriginPathInfo = 0x0BB8,
         ///<summary>
         ///0x0FA0-0x1387 4000-4999 Plug-In resource(s). Resources added by a plug-in. See the plug-in API found in the SDK documentation
@@ -371,8 +371,8 @@
         ///</summary>
         LightroomWorkflow = 0x1F40,
         ///<summary>
-        ///0x2710 10000 Print flags information. 2 bytes version ( 
-        ///</summary>= 1), 1 byte center crop marks, 1 byte ( = 0), 4 bytes bleed width value, 2 bytes bleed width scale.
+        ///0x2710 10000 Print flags information. 2 bytes version ( = 1), 1 byte center crop marks, 1 byte ( = 0), 4 bytes bleed width value, 2 bytes bleed width scale.
+        ///</summary>
         PrintFlagsInformation = 0x2710
 
     }
