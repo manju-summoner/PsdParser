@@ -1,14 +1,9 @@
 ﻿namespace PsdParser
 {
-    public class LayerRecordAndImage
+    public class LayerRecordAndImage(LayerRecord record, LayerImage image)
     {
-        public LayerRecord Record { get; }
-        public LayerImage Image { get; }
-        public LayerRecordAndImage(LayerRecord record, LayerImage image)
-        {
-            Record = record;
-            Image = image;
-        }
+        public LayerRecord Record { get; } = record;
+        public LayerImage Image { get; } = image;
 
         public void Deconstruct(out LayerRecord record, out LayerImage image) => (record, image) = (Record, Image);
     }

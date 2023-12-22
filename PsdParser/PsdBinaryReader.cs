@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace PsdParser
 {
-    internal class PsdBinaryReader : BinaryReader
+    internal class PsdBinaryReader(Stream input) : BinaryReader(input)
     {
-        public PsdBinaryReader(Stream input) : base(input)
-        {
-        }
-
         public override ushort ReadUInt16() => BitConverter.ToUInt16(ReadBigEndian(sizeof(ushort)));
         public override short ReadInt16()=> BitConverter.ToInt16(ReadBigEndian(sizeof(short)));
 

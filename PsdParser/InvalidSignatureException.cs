@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace PsdParser
 {
-    internal class InvalidSignatureException : Exception
+    internal class InvalidSignatureException(string signature) : Exception($"Invalid signature: {signature}")
     {
-        public InvalidSignatureException(string signature) : base($"Invalid signature: {signature}")
-        {
-
-        }
     }
 }
