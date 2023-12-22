@@ -13,7 +13,7 @@
             var blocks = new List<ImageResourceBlock>();
             while (reader.BaseStream.Position - position < Length)
             {
-                blocks.Add(new ImageResourceBlock(reader));
+                blocks.Add(ImageResourceBlock.Parse(reader));
             }
             Blocks = blocks.ToArray();
 
