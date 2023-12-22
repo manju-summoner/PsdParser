@@ -24,6 +24,21 @@ namespace PsdParser
         private protected PsdBinaryReader reader;
         public long Position { get; }
         public AdditionalLayerInformationKey Key { get; }
+        public string KeyName
+        {
+            get
+            {
+                var iKey = (int)Key;
+                var chars = new char[]
+                {
+                    (char)((iKey >> 24) & 0xFF),
+                    (char)((iKey >> 16) & 0xFF),
+                    (char)((iKey >> 8) & 0xFF),
+                    (char)(iKey & 0xFF),
+                };
+                return new string(chars);
+            }
+        }
         public long Length { get; }
 
         private protected AdditionalLayerInformation(PsdBinaryReader reader, AdditionalLayerInformationKey key, long length)
