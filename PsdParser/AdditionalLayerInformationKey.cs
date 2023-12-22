@@ -5,6 +5,8 @@
         LayerID = 'l' << 24 | 'y' << 16 | 'i' << 8 | 'd',
         UnicodeLayerName = 'l' << 24 | 'u' << 16 | 'n' << 8 | 'i',
         SectionDividerSetting = 'l' << 24 | 's' << 16 | 'c' << 8 | 't',
+        //undocumented. lsdk works the same as lscd.
+        SectionDividerSetting2 = 'l' << 24 | 's' << 16 | 'd' << 8 | 'k',
 
         //(**PSB**, the following keys have a length count of 8 bytes: LMsk, Lr16, Lr32, Layr, Mt16, Mt32, Mtrn, Alph, FMsk, lnk2, FEid, FXid, PxSD.
         UserMask = 'L' << 24 | 'M' << 16 | 's' << 8 | 'k',

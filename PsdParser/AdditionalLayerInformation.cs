@@ -56,7 +56,7 @@ namespace PsdParser
             {
                 AdditionalLayerInformationKey.LayerID => new LayerID(reader, length),
                 AdditionalLayerInformationKey.UnicodeLayerName => new UnicodeLayerName(reader, length),
-                AdditionalLayerInformationKey.SectionDividerSetting => new SectionDividerSetting(reader, key, length),
+                AdditionalLayerInformationKey.SectionDividerSetting or AdditionalLayerInformationKey.SectionDividerSetting2 => new SectionDividerSetting(reader, key, length),
                 _ => new AdditionalLayerInformation(reader, key, length),
             };
 

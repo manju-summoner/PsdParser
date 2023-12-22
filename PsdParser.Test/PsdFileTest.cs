@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using PsdParser.AdditionalLayerInformations;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -83,6 +84,34 @@ namespace PsdParser.Test
                     Directory.GetFiles(dir, "*.psb")
                 }
                 .SelectMany(x => x);
+        }
+
+        [Test]
+        public void ParseLayerGroups()
+        {
+            foreach (var file in GetPsdFiles())
+            {
+                using var psd = new PsdFile(file);
+                var groups = 
+                    psd.LayerAndMaskInformationSection.LayerInfo.Items
+                    .Where(x=>x.Record.AdditionalLayerInformations.OfType<SectionDividerSetting>().Any())
+                    .Reverse();
+
+                int nest = 0;
+                foreach(var group in groups)
+                {
+                    var sectionDividerSetting = group.Record.AdditionalLayerInformations.OfType<SectionDividerSetting>().First();
+                    if(sectionDividerSetting.Type is SectionDividerSetting.LsctType.OpenedFolder or SectionDividerSetting.LsctType.ClosedFolder)
+                    {
+                        nest++;
+                    }
+                    else if(sectionDividerSetting.Type is SectionDividerSetting.LsctType.BoundingSectionDivider)
+                    {
+                        nest--;
+                    }
+                }
+                Assert.AreEqual(0, nest);
+            }
         }
 
     }
