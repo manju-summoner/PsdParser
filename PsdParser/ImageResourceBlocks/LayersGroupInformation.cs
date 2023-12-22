@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PsdParser.ImageResourceBlocks
 {
-    internal class LayersGroupInformation : ImageResourceBlock
+    public class LayersGroupInformation : ImageResourceBlock
     {
         public short[] GroupIds { get; private set; } = [];
         internal LayersGroupInformation(PsdBinaryReader reader, ImageResourceBlockId id, string name, uint dataSize) : base(reader, id, name, dataSize)
