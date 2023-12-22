@@ -9,7 +9,7 @@ namespace PsdParser.AdditionalLayerInformations
     public class LayerID : AdditionalLayerInformation
     {
         public int Id { get; private set; }
-        internal LayerID(PsdBinaryReader reader, long length) : base(reader, AdditionalLayerInformationKeys.LayerID, length)
+        internal LayerID(PsdBinaryReader reader, long length) : base(reader, AdditionalLayerInformationKey.LayerID, length)
         {
 
         }

@@ -4,17 +4,29 @@ namespace PsdParser
 {
     public class AdditionalLayerInformation
     {
-        static readonly string[] LongLengthKeys = new[]
+        static readonly AdditionalLayerInformationKey[] LongLengthKeys = new[]
         {
-            "LMsk", "Lr16", "Lr32", "Layr", "Mt16", "Mt32", "Mtrn", "Alph", "FMsk", "lnk2", "FEid", "FXid", "PxSD"
+            AdditionalLayerInformationKey.UserMask,
+            AdditionalLayerInformationKey.Lr16,
+            AdditionalLayerInformationKey.Lr32,
+            AdditionalLayerInformationKey.Layr,
+            AdditionalLayerInformationKey.SavingMergedTransparency16,
+            AdditionalLayerInformationKey.SavingMergedTransparency32,
+            AdditionalLayerInformationKey.SavingMergedTransparency,
+            AdditionalLayerInformationKey.Alph,
+            AdditionalLayerInformationKey.FilterMask,
+            AdditionalLayerInformationKey.LinkedLayer2,
+            AdditionalLayerInformationKey.FilterEffects2,
+            AdditionalLayerInformationKey.FilterEffects,
+            AdditionalLayerInformationKey.PixelSourceData
         };
 
         private protected PsdBinaryReader reader;
         public long Position { get; }
-        public string Key { get; }
+        public AdditionalLayerInformationKey Key { get; }
         public long Length { get; }
 
-        private protected AdditionalLayerInformation(PsdBinaryReader reader, string key, long length)
+        private protected AdditionalLayerInformation(PsdBinaryReader reader, AdditionalLayerInformationKey key, long length)
         {
             this.reader = reader;
             Position = reader.BaseStream.Position;
@@ -35,16 +47,16 @@ namespace PsdParser
             if (signature != "8BIM" && signature != "8B64")
                 throw new InvalidSignatureException(signature);
 
-            var key = new string(reader.ReadChars(4));
+            var key = (AdditionalLayerInformationKey)reader.ReadInt32();
 
             bool isLongLength = isPSB && LongLengthKeys.Contains(key);
             var length = isLongLength ? reader.ReadInt64() : reader.ReadUInt32();
 
             var info = key switch
             {
-                AdditionalLayerInformationKeys.LayerID => new LayerID(reader, length),
-                AdditionalLayerInformationKeys.UnicodeLayerName => new UnicodeLayerName(reader, length),
-                AdditionalLayerInformationKeys.SectionDividerSetting => new SectionDividerSetting(reader, length),
+                AdditionalLayerInformationKey.LayerID => new LayerID(reader, length),
+                AdditionalLayerInformationKey.UnicodeLayerName => new UnicodeLayerName(reader, length),
+                AdditionalLayerInformationKey.SectionDividerSetting => new SectionDividerSetting(reader, key, length),
                 _ => new AdditionalLayerInformation(reader, key, length),
             };
 
