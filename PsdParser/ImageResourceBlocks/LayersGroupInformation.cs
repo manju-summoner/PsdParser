@@ -8,7 +8,7 @@ namespace PsdParser.ImageResourceBlocks
 {
     internal class LayersGroupInformation : ImageResourceBlock
     {
-        public short[] GroupIds { get; private set; } = Array.Empty<short>();
+        public short[] GroupIds { get; private set; } = [];
         internal LayersGroupInformation(PsdBinaryReader reader, ImageResourceBlockId id, string name, uint dataSize) : base(reader, id, name, dataSize)
         {
 

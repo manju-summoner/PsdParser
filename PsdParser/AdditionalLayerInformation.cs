@@ -4,8 +4,8 @@ namespace PsdParser
 {
     public class AdditionalLayerInformation
     {
-        static readonly AdditionalLayerInformationKey[] LongLengthKeys = new[]
-        {
+        static readonly AdditionalLayerInformationKey[] LongLengthKeys =
+        [
             AdditionalLayerInformationKey.UserMask,
             AdditionalLayerInformationKey.Lr16,
             AdditionalLayerInformationKey.Lr32,
@@ -19,7 +19,7 @@ namespace PsdParser
             AdditionalLayerInformationKey.FilterEffects2,
             AdditionalLayerInformationKey.FilterEffects,
             AdditionalLayerInformationKey.PixelSourceData
-        };
+        ];
 
         private protected PsdBinaryReader reader;
         public long Position { get; }

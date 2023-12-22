@@ -54,7 +54,7 @@
             var additional = new List<AdditionalLayerInformation>();
             while (maxPadding <= extraDataPosition + ExtraDataLength - reader.BaseStream.Position)
                 additional.Add(AdditionalLayerInformation.Parse(reader, isPSB));
-            AdditionalLayerInformations = additional.ToArray();
+            AdditionalLayerInformations = [.. additional];
             if (extraDataPosition + ExtraDataLength - reader.BaseStream.Position < maxPadding)
                 reader.BaseStream.Position = extraDataPosition + ExtraDataLength;
 

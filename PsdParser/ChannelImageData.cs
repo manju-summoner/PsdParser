@@ -5,7 +5,7 @@
         readonly long position;
         readonly PsdBinaryReader reader;
         readonly int width, depth;
-        readonly int[] rleIndex = Array.Empty<int>();
+        readonly int[] rleIndex = [];
 
         public ChannelImageDataCompression Compression { get; }
         public ChannelId ChannelId { get; }

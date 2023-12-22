@@ -2,7 +2,7 @@
 {
     internal class LayerGroupsEnabledId : ImageResourceBlock
     {
-        public byte[] GroupIds { get; private set; } = Array.Empty<byte>();
+        public byte[] GroupIds { get; private set; } = [];
         public LayerGroupsEnabledId(PsdBinaryReader reader, ImageResourceBlockId id, string name, uint dataSize) : base(reader, id, name, dataSize)
         {
         }

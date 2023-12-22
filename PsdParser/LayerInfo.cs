@@ -31,7 +31,7 @@
         }
         internal LayerInfo()
         {
-            Items = Array.Empty<LayerRecordAndImage>();
+            Items = [];
         }
     }
 }

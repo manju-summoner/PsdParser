@@ -20,7 +20,7 @@
                 if (reader.BaseStream.Position == position + 4 + Length)
                 {
                     GlobalLayerMaskInfo = new GlobalLayerMaskInfo();
-                    AdditionalLayerInformations = Array.Empty<AdditionalLayerInformation>();
+                    AdditionalLayerInformations = [];
                 }
                 else
                 {
@@ -30,7 +30,7 @@
                     var additionalInfos = new List<AdditionalLayerInformation>();
                     while (maxPadding <= position + lengthSize + Length - reader.BaseStream.Position)
                         additionalInfos.Add(AdditionalLayerInformation.Parse(reader, isPSB));
-                    AdditionalLayerInformations = additionalInfos.ToArray();
+                    AdditionalLayerInformations = [.. additionalInfos];
                     if (position + lengthSize + Length - reader.BaseStream.Position < maxPadding)
                         reader.BaseStream.Position = position + lengthSize + Length;
                 }
@@ -39,7 +39,7 @@
             {
                 LayerInfo = new LayerInfo();
                 GlobalLayerMaskInfo = new GlobalLayerMaskInfo();
-                AdditionalLayerInformations = Array.Empty<AdditionalLayerInformation>();
+                AdditionalLayerInformations = [];
             }
             InvalidStreamPositionException.ThrowIfInvalid(reader, position, lengthSize + Length);
         }

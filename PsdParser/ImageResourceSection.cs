@@ -15,7 +15,7 @@
             {
                 blocks.Add(ImageResourceBlock.Parse(reader));
             }
-            Blocks = blocks.ToArray();
+            Blocks = [.. blocks];
 
 
             InvalidStreamPositionException.ThrowIfInvalid(reader, position, Length + 4);
