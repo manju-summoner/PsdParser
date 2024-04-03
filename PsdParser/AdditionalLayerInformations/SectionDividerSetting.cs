@@ -9,8 +9,8 @@ namespace PsdParser.AdditionalLayerInformations
     public class SectionDividerSetting : AdditionalLayerInformation
     {
         public LsctType Type { get; private set; }
-        public BlendMode BlendMode { get; private set; } = BlendMode.Normal;
-        public LsctSubType SubType { get; private set; }
+        public BlendMode? BlendMode { get; private set; } = null;
+        public LsctSubType? SubType { get; private set; } = null;
 
         internal SectionDividerSetting(PsdBinaryReader reader, AdditionalLayerInformationKey key, long length) : base(reader, key, length)
         {
@@ -19,7 +19,8 @@ namespace PsdParser.AdditionalLayerInformations
         private protected override void Load(PsdBinaryReader reader, long length)
         {
             Type = (LsctType)reader.ReadInt32();
-            if (length < 12) return;
+            if (length < 12)
+                return;
 
             var signature = new string(reader.ReadChars(4));
             if(signature != "8BIM")
