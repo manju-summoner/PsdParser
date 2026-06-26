@@ -6,6 +6,9 @@
         readonly PsdBinaryReader reader;
         readonly int width, depth;
         readonly int[] rleIndex = [];
+        //各スキャンラインのRLEデータ先頭オフセット(positionからの相対バイト数)を事前計算したもの。
+        //ReadLineで毎回rleIndex.Take(y).Sum()するとO(height^2)になるため累積和をここに持つ。
+        readonly long[] rleOffsets = [];
 
         public ChannelImageDataCompression Compression { get; }
         public ChannelId ChannelId { get; }
@@ -31,8 +34,14 @@
                     rleIndex[i] = isPSB ? reader.ReadInt32() : reader.ReadInt16();
 
                 position = reader.BaseStream.Position;
+                rleOffsets = new long[height];
+                long offset = 0;
                 for (int i = 0; i < height; i++)
-                    reader.BaseStream.Position += rleIndex[i];
+                {
+                    rleOffsets[i] = offset;
+                    offset += rleIndex[i];
+                }
+                reader.BaseStream.Position += offset;
             }
             else
             {
@@ -48,7 +57,7 @@
             }
             else if(Compression is ChannelImageDataCompression.RLE)
             {
-                reader.BaseStream.Position = position + rleIndex.Take(y).Sum();
+                reader.BaseStream.Position = position + rleOffsets[y];
                 var rle = reader.ReadBytes(rleIndex[y]);
                 int di = 0;
                 for (var si = 0; si < rle.Length; )
