@@ -41,7 +41,7 @@
                 throw new NotSupportedException($"Not supported format: {colorMode}");
         }
 
-        byte[] ReadRGB()
+        unsafe byte[] ReadRGB()
         {
             byte[] buffer = new byte[Width * Height * 4];
 
@@ -51,29 +51,43 @@
             var a = new byte[Width];
             Array.Fill(a, byte.MaxValue);
 
-            for(int y = 0; y < Height; y++)
+            //y行ループの内側で毎回ChannelIdのswitchをしないよう、対応するチャンネルだけ事前に抽出する。
+            var planes = BuildPlanes(r, g, b, a);
+
+            fixed (byte* pBuf = buffer, pB = b, pG = g, pR = r, pA = a)
             {
-                for(int c = 0;c<ChannelImages.Length;c++)
+                for (int y = 0; y < Height; y++)
                 {
-                    var image = ChannelImages[c];
-                    var channelBuffer = image.ChannelId switch { ChannelId.R => r, ChannelId.G => g, ChannelId.B => b, ChannelId.TransparencyMask => a, _ => null };
-                    if (channelBuffer is null) 
-                        continue;
+                    foreach (var (image, plane) in planes)
+                        image.ReadLine(plane, y);
 
-                    ChannelImages[c].ReadLine(channelBuffer, y);
-                }
-
-                for (int x = 0; x < Width; x++)
-                {
-                    buffer[y * Width * 4 + x * 4 + 0] = b[x];
-                    buffer[y * Width * 4 + x * 4 + 1] = g[x];
-                    buffer[y * Width * 4 + x * 4 + 2] = r[x];
-                    buffer[y * Width * 4 + x * 4 + 3] = a[x];
+                    byte* dst = pBuf + (long)y * Width * 4;
+                    for (int x = 0; x < Width; x++)
+                    {
+                        dst[0] = pB[x];
+                        dst[1] = pG[x];
+                        dst[2] = pR[x];
+                        dst[3] = pA[x];
+                        dst += 4;
+                    }
                 }
             }
             return buffer;
         }
-        byte[] ReadCMYK()
+
+        List<(ChannelImageData image, byte[] plane)> BuildPlanes(byte[] r, byte[] g, byte[] b, byte[] a)
+        {
+            var planes = new List<(ChannelImageData, byte[])>(ChannelImages.Length);
+            foreach (var image in ChannelImages)
+            {
+                var plane = image.ChannelId switch { ChannelId.R => r, ChannelId.G => g, ChannelId.B => b, ChannelId.TransparencyMask => a, _ => null };
+                if (plane is not null)
+                    planes.Add((image, plane));
+            }
+            return planes;
+        }
+
+        unsafe byte[] ReadCMYK()
         {
             byte[] buffer = new byte[Width * Height * 4];
             var c = new byte[Width];
@@ -83,24 +97,30 @@
             var a = new byte[Width];
             Array.Fill(a, byte.MaxValue);
 
-            for (int yi = 0; yi < Height; yi++)
+            var planes = new List<(ChannelImageData image, byte[] plane)>(ChannelImages.Length);
+            foreach (var image in ChannelImages)
             {
-                for (int ci = 0; ci < ChannelImages.Length; ci++)
-                {
-                    var image = ChannelImages[ci];
-                    var channelBuffer = image.ChannelId switch { ChannelId.C => c, ChannelId.M => m, ChannelId.Y => y, ChannelId.K=> k, ChannelId.TransparencyMask => a, _ => null };
-                    if (channelBuffer is null)
-                        continue;
+                var plane = image.ChannelId switch { ChannelId.C => c, ChannelId.M => m, ChannelId.Y => y, ChannelId.K => k, ChannelId.TransparencyMask => a, _ => null };
+                if (plane is not null)
+                    planes.Add((image, plane));
+            }
 
-                    ChannelImages[ci].ReadLine(channelBuffer, yi);
-                }
-
-                for (int x = 0; x < Width; x++)
+            fixed (byte* pBuf = buffer, pC = c, pM = m, pY = y, pK = k, pA = a)
+            {
+                for (int yi = 0; yi < Height; yi++)
                 {
-                    buffer[yi * Width * 4 + x * 4 + 0] = (byte)(y[x] * k[x] / 255);
-                    buffer[yi * Width * 4 + x * 4 + 1] = (byte)(m[x] * k[x] / 255);
-                    buffer[yi * Width * 4 + x * 4 + 2] = (byte)(c[x] * k[x] / 255);
-                    buffer[yi * Width * 4 + x * 4 + 3] = a[x];
+                    foreach (var (image, plane) in planes)
+                        image.ReadLine(plane, yi);
+
+                    byte* dst = pBuf + (long)yi * Width * 4;
+                    for (int x = 0; x < Width; x++)
+                    {
+                        dst[0] = (byte)(pY[x] * pK[x] / 255);
+                        dst[1] = (byte)(pM[x] * pK[x] / 255);
+                        dst[2] = (byte)(pC[x] * pK[x] / 255);
+                        dst[3] = pA[x];
+                        dst += 4;
+                    }
                 }
             }
             return buffer;
