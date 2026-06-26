@@ -53,7 +53,7 @@
                 throw new NotSupportedException($"Not supported compression: {Compression}");
             }
         }
-        public void ReadLine(byte[] buffer, int y)
+        public unsafe void ReadLine(byte[] buffer, int y)
         {
             if(Compression is ChannelImageDataCompression.RawData)
             {
@@ -98,24 +98,32 @@
 
                 int di = 0;
                 int siEnd = rleStart + len;
-                for (var si = rleStart; si < siEnd; )
+                int bufLen = buffer.Length;
+                fixed (byte* pSrc = rle, pDst = buffer)
                 {
-                    var count = (sbyte)rle[si];
-                    if (count >= 0)
+                    int si = rleStart;
+                    while (si < siEnd)
                     {
-                        //リテラル: count+1 バイトをそのままコピー
-                        int n = count + 1;
-                        Array.Copy(rle, si + 1, buffer, di, n);
-                        di += n;
-                        si += n + 1;
-                    }
-                    else
-                    {
-                        //連長: 次の1バイトを -count+1 回繰り返す
-                        int n = -count + 1;
-                        Array.Fill(buffer, rle[si + 1], di, n);
-                        di += n;
-                        si += 2;
+                        var count = (sbyte)pSrc[si];
+                        if (count >= 0)
+                        {
+                            //リテラル: count+1 バイトをそのままコピー
+                            int n = count + 1;
+                            if (di + n > bufLen) break; //破損データ保護
+                            Buffer.MemoryCopy(pSrc + si + 1, pDst + di, bufLen - di, n);
+                            di += n;
+                            si += n + 1;
+                        }
+                        else
+                        {
+                            //連長: 次の1バイトを -count+1 回繰り返す
+                            int n = -count + 1;
+                            if (di + n > bufLen) break; //破損データ保護
+                            byte v = pSrc[si + 1];
+                            new Span<byte>(pDst + di, n).Fill(v);
+                            di += n;
+                            si += 2;
+                        }
                     }
                 }
                 if (di != buffer.Length)
