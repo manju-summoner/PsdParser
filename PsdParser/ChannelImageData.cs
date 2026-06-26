@@ -9,6 +9,8 @@
         //各スキャンラインのRLEデータ先頭オフセット(positionからの相対バイト数)を事前計算したもの。
         //ReadLineで毎回rleIndex.Take(y).Sum()するとO(height^2)になるため累積和をここに持つ。
         readonly long[] rleOffsets = [];
+        //RLE生バイトの読み込み用スクラッチ。行ごとにReadBytesで確保し直さず使い回す。
+        readonly byte[] rleScratch = [];
 
         public ChannelImageDataCompression Compression { get; }
         public ChannelId ChannelId { get; }
@@ -36,11 +38,14 @@
                 position = reader.BaseStream.Position;
                 rleOffsets = new long[height];
                 long offset = 0;
+                int maxLine = 0;
                 for (int i = 0; i < height; i++)
                 {
                     rleOffsets[i] = offset;
                     offset += rleIndex[i];
+                    if (rleIndex[i] > maxLine) maxLine = rleIndex[i];
                 }
+                rleScratch = new byte[maxLine];
                 reader.BaseStream.Position += offset;
             }
             else
@@ -58,23 +63,32 @@
             else if(Compression is ChannelImageDataCompression.RLE)
             {
                 reader.BaseStream.Position = position + rleOffsets[y];
-                var rle = reader.ReadBytes(rleIndex[y]);
+                int len = rleIndex[y];
+                var rle = rleScratch;
+                for (int read = 0; read < len;)
+                {
+                    int n = reader.Read(rle, read, len - read);
+                    if (n <= 0) break;
+                    read += n;
+                }
                 int di = 0;
-                for (var si = 0; si < rle.Length; )
+                for (var si = 0; si < len; )
                 {
                     var count = (sbyte)rle[si];
-                    if (count > 0)
+                    if (count >= 0)
                     {
-                        for (int i = 0; i < count + 1; i++)
-                            buffer[di + i] = rle[si + 1 + i];
-                        di += count + 1;
-                        si += count + 1 + 1;
+                        //リテラル: count+1 バイトをそのままコピー
+                        int n = count + 1;
+                        Array.Copy(rle, si + 1, buffer, di, n);
+                        di += n;
+                        si += n + 1;
                     }
                     else
                     {
-                        for (int i = 0; i < -count + 1; i++)
-                            buffer[di + i] = rle[si + 1];
-                        di += -count + 1;
+                        //連長: 次の1バイトを -count+1 回繰り返す
+                        int n = -count + 1;
+                        Array.Fill(buffer, rle[si + 1], di, n);
+                        di += n;
                         si += 2;
                     }
                 }
