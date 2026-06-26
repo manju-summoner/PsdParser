@@ -16,7 +16,9 @@
             //FileStreamのままだとバッファが効かず実質ランダムIOになる。
             //ファイル全体を一度メモリへ読み込み、メモリ上でシークすることでこのコストを排除する。
             //(PSDは全レイヤーを展開する用途であり、全体ロードのメモリ増加は許容範囲)
-            stream = new MemoryStream(File.ReadAllBytes(file), writable: false);
+            //publiclyVisible:trueでGetBuffer()を許可し、デコード時にバッファから直接読めるようにする。
+            var bytes = File.ReadAllBytes(file);
+            stream = new MemoryStream(bytes, 0, bytes.Length, writable: false, publiclyVisible: true);
             reader = new PsdBinaryReader(stream);
 
             Header = new FileHeaderSection(reader);

@@ -9,6 +9,10 @@ namespace PsdParser
 {
     internal class PsdBinaryReader(Stream input) : BinaryReader(input)
     {
+        //入力がメモリ上のバッファなら、デコード時にコピーを介さず直接読むために公開する。
+        //(PsdFileはpubliclyVisibleなMemoryStreamを渡すためGetBufferが使える)
+        public byte[]? UnderlyingBuffer { get; } = (input as MemoryStream)?.GetBuffer();
+
         public override ushort ReadUInt16() => BinaryPrimitives.ReadUInt16BigEndian(ReadBigEndian(stackalloc byte[sizeof(ushort)]));
         public override short ReadInt16() => BinaryPrimitives.ReadInt16BigEndian(ReadBigEndian(stackalloc byte[sizeof(short)]));
 

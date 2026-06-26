@@ -57,22 +57,48 @@
         {
             if(Compression is ChannelImageDataCompression.RawData)
             {
-                reader.BaseStream.Position = position + width * depth / 8 * y;
-                reader.Read(buffer, 0, width * depth / 8);
+                int rowBytes = width * depth / 8;
+                long src = position + (long)rowBytes * y;
+                var mem = reader.UnderlyingBuffer;
+                if (mem is not null)
+                {
+                    Array.Copy(mem, (int)src, buffer, 0, rowBytes);
+                }
+                else
+                {
+                    reader.BaseStream.Position = src;
+                    reader.Read(buffer, 0, rowBytes);
+                }
             }
             else if(Compression is ChannelImageDataCompression.RLE)
             {
-                reader.BaseStream.Position = position + rleOffsets[y];
                 int len = rleIndex[y];
-                var rle = rleScratch;
-                for (int read = 0; read < len;)
+                long src = position + rleOffsets[y];
+                var mem = reader.UnderlyingBuffer;
+                byte[] rle;
+                int rleStart;
+                if (mem is not null)
                 {
-                    int n = reader.Read(rle, read, len - read);
-                    if (n <= 0) break;
-                    read += n;
+                    //メモリ上のファイルバッファから直接デコード(スクラッチへのコピー不要)
+                    rle = mem;
+                    rleStart = (int)src;
                 }
+                else
+                {
+                    reader.BaseStream.Position = src;
+                    rle = rleScratch;
+                    rleStart = 0;
+                    for (int read = 0; read < len;)
+                    {
+                        int n = reader.Read(rle, read, len - read);
+                        if (n <= 0) break;
+                        read += n;
+                    }
+                }
+
                 int di = 0;
-                for (var si = 0; si < len; )
+                int siEnd = rleStart + len;
+                for (var si = rleStart; si < siEnd; )
                 {
                     var count = (sbyte)rle[si];
                     if (count >= 0)
