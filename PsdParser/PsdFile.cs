@@ -12,7 +12,11 @@
 
         public PsdFile(string file)
         {
-            stream = new FileStream(file, FileMode.Open, FileAccess.Read);
+            //RGBデコードはチャンネルをスキャンライン単位で R->G->B->A と飛び飛びにシークするため、
+            //FileStreamのままだとバッファが効かず実質ランダムIOになる。
+            //ファイル全体を一度メモリへ読み込み、メモリ上でシークすることでこのコストを排除する。
+            //(PSDは全レイヤーを展開する用途であり、全体ロードのメモリ増加は許容範囲)
+            stream = new MemoryStream(File.ReadAllBytes(file), writable: false);
             reader = new PsdBinaryReader(stream);
 
             Header = new FileHeaderSection(reader);
